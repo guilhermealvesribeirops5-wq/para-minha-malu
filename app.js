@@ -1,198 +1,72 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-  const btnEntrar =
-    document.getElementById("btnEntrar");
+  const diasEl = document.getElementById("dias");
+  const horasEl = document.getElementById("horas");
+  const minutosEl = document.getElementById("minutos");
+  const segundosEl = document.getElementById("segundos");
 
-  const hero =
-    document.getElementById("hero");
+  const btnSurpresa = document.getElementById("btnSurpresa");
+  const surpresa = document.getElementById("surpresa");
 
-  const conteudo =
-    document.getElementById("conteudo");
-
-  const btnSurpresa =
-    document.getElementById("btnSurpresa");
-
-  const surpresa =
-    document.getElementById("surpresa");
-
-  const diasEl =
-    document.getElementById("dias");
-
-  const horasEl =
-    document.getElementById("horas");
-
-  const minutosEl =
-    document.getElementById("minutos");
-
-  const segundosEl =
-    document.getElementById("segundos");
+  const inicioRelacionamento = new Date("2026-03-28T00:00:00");
 
 
-  const inicioRelacionamento =
-    new Date(
-      "2026-03-28T00:00:00"
-    );
-
-
-  // =====================
-  // ENTRAR NA HISTÓRIA
-  // =====================
-
-  if (
-    btnEntrar &&
-    hero &&
-    conteudo
-  ) {
-
-    btnEntrar.addEventListener(
-      "click",
-      () => {
-
-        hero.classList.add(
-          "saindo"
-        );
-
-        setTimeout(
-          () => {
-
-            hero.style.display =
-              "none";
-
-            conteudo.classList.remove(
-              "conteudo-escondido"
-            );
-
-            conteudo.classList.add(
-              "conteudo-visivel"
-            );
-
-            window.scrollTo({
-              top: 0,
-              behavior: "instant"
-            });
-
-          },
-          650
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================
-  // CONTADOR
-  // =====================
+  // =========================
+  // CONTADOR DO RELACIONAMENTO
+  // =========================
 
   function atualizarContador() {
-
-    const agora =
-      new Date();
-
-    let diferenca =
-      agora -
-      inicioRelacionamento;
-
     if (
-      diferenca < 0
+      !diasEl ||
+      !horasEl ||
+      !minutosEl ||
+      !segundosEl
     ) {
-
-      diferenca = 0;
-
+      return;
     }
 
+    const agora = new Date();
+
+    let diferenca =
+      agora.getTime() -
+      inicioRelacionamento.getTime();
+
+    if (diferenca < 0) {
+      diferenca = 0;
+    }
 
     const segundosTotais =
-      Math.floor(
-        diferenca /
-        1000
-      );
-
+      Math.floor(diferenca / 1000);
 
     const dias =
-      Math.floor(
-        segundosTotais /
-        86400
-      );
-
+      Math.floor(segundosTotais / 86400);
 
     const horas =
       Math.floor(
-        (
-          segundosTotais %
-          86400
-        ) /
-        3600
+        (segundosTotais % 86400) / 3600
       );
-
 
     const minutos =
       Math.floor(
-        (
-          segundosTotais %
-          3600
-        ) /
-        60
+        (segundosTotais % 3600) / 60
       );
 
-
     const segundos =
-      segundosTotais %
-      60;
+      segundosTotais % 60;
 
+    diasEl.textContent = dias;
 
-    if (
-      diasEl
-    ) {
-      diasEl.textContent =
-        dias;
-    }
+    horasEl.textContent =
+      String(horas).padStart(2, "0");
 
+    minutosEl.textContent =
+      String(minutos).padStart(2, "0");
 
-    if (
-      horasEl
-    ) {
-      horasEl.textContent =
-        String(
-          horas
-        ).padStart(
-          2,
-          "0"
-        );
-    }
-
-
-    if (
-      minutosEl
-    ) {
-      minutosEl.textContent =
-        String(
-          minutos
-        ).padStart(
-          2,
-          "0"
-        );
-    }
-
-
-    if (
-      segundosEl
-    ) {
-      segundosEl.textContent =
-        String(
-          segundos
-        ).padStart(
-          2,
-          "0"
-        );
-    }
-
+    segundosEl.textContent =
+      String(segundos).padStart(2, "0");
   }
 
-
   atualizarContador();
-
 
   setInterval(
     atualizarContador,
@@ -200,9 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
 
-  // =====================
+  // =========================
   // SURPRESA FINAL
-  // =====================
+  // =========================
 
   if (
     btnSurpresa &&
@@ -211,28 +85,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnSurpresa.addEventListener(
       "click",
-      () => {
+      function () {
 
-        surpresa.classList.toggle(
-          "ativa"
-        );
+        const estaAberta =
+          surpresa.classList.contains("ativa");
 
+        if (estaAberta) {
 
-        if (
-          surpresa.classList.contains(
-            "ativa"
-          )
-        ) {
+          surpresa.classList.remove("ativa");
+
+          btnSurpresa.textContent =
+            "Toca aqui, meu amor ❤️";
+
+        } else {
+
+          surpresa.classList.add("ativa");
 
           btnSurpresa.textContent =
             "Eu te amo, Malu ❤️";
 
-          criarCoracoes();
+          criarChuvaDeCoracoes();
 
-        } else {
-
-          btnSurpresa.textContent =
-            "Toca aqui, meu amor ❤️";
+          setTimeout(
+            function () {
+              surpresa.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+              });
+            },
+            250
+          );
 
         }
 
@@ -242,21 +124,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // =====================
-  // CORAÇÕES
-  // =====================
+  // =========================
+  // CHUVA DE CORAÇÕES
+  // =========================
 
-  function criarCoracoes() {
+  function criarChuvaDeCoracoes() {
 
     for (
       let i = 0;
-      i < 30;
+      i < 35;
       i++
     ) {
 
       setTimeout(
-        criarCoracao,
-        i * 80
+        function () {
+          criarCoracao();
+        },
+        i * 90
       );
 
     }
@@ -267,54 +151,54 @@ document.addEventListener("DOMContentLoaded", () => {
   function criarCoracao() {
 
     const coracao =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
+    const simbolos = [
+      "❤️",
+      "💕",
+      "💗",
+      "💖"
+    ];
 
     coracao.textContent =
-      Math.random() > 0.25
-        ? "❤️"
-        : "💕";
+      simbolos[
+        Math.floor(
+          Math.random() *
+          simbolos.length
+        )
+      ];
 
 
     coracao.style.position =
       "fixed";
 
-
     coracao.style.left =
-      Math.random() *
-      100 +
-      "vw";
-
+      Math.random() * 100 + "vw";
 
     coracao.style.bottom =
-      "-50px";
-
-
-    coracao.style.fontSize =
-      (
-        16 +
-        Math.random() *
-        28
-      ) +
-      "px";
-
+      "-60px";
 
     coracao.style.zIndex =
       "9999";
 
-
     coracao.style.pointerEvents =
       "none";
 
+    coracao.style.userSelect =
+      "none";
+
+    coracao.style.fontSize =
+      (
+        16 +
+        Math.random() * 26
+      ) +
+      "px";
 
     coracao.style.opacity =
       "1";
 
-
     coracao.style.transition =
-      "transform 3.7s linear, opacity 3.7s ease";
+      "transform 4s linear, opacity 4s ease";
 
 
     document.body.appendChild(
@@ -323,19 +207,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     requestAnimationFrame(
-      () => {
+      function () {
+
+        const deslocamento =
+          115 +
+          Math.random() * 35;
+
+        const rotacao =
+          Math.random() * 500;
 
         coracao.style.transform =
-          `translateY(-${
-            110 +
-            Math.random() *
-            40
-          }vh)
-          rotate(${
-            Math.random() *
-            500
-          }deg)`;
-
+          "translateY(-" +
+          deslocamento +
+          "vh) rotate(" +
+          rotacao +
+          "deg)";
 
         coracao.style.opacity =
           "0";
@@ -345,12 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     setTimeout(
-      () => {
-
+      function () {
         coracao.remove();
-
       },
-      3800
+      4100
     );
 
   }
