@@ -23,6 +23,107 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
+  // CARTINHAS COLECIONÁVEIS — 0/3
+  // ==================================================
+
+  const cartinhasEncontradas = new Set();
+
+  const painelCartinhas = document.createElement("section");
+  painelCartinhas.className = "painel-cartinhas";
+  painelCartinhas.innerHTML = `
+    <div class="painel-cartinhas-topo">
+      <div>
+        <small>💌 MISSÃO ESPECIAL</small>
+        <strong>Encontre as 3 cartinhas da nossa história</strong>
+      </div>
+      <span class="contador-cartinhas">0/3</span>
+    </div>
+
+    <div class="progresso-cartinhas">
+      <span class="cartinha-status" data-cartinha="1">1</span>
+      <i></i>
+      <span class="cartinha-status" data-cartinha="2">2</span>
+      <i></i>
+      <span class="cartinha-status" data-cartinha="3">3</span>
+    </div>
+
+    <p class="painel-cartinhas-dica">
+      Não precisa procurar no escuro: as dicas abaixo mostram exatamente onde estão. ❤️
+    </p>
+
+    <div class="atalhos-cartinhas">
+      <a href="#memorias">💌 1 — Memórias</a>
+      <a href="#carta">💌 2 — Carta</a>
+      <button type="button" class="atalho-coracao-topo">💗 3 — Coração do topo</button>
+    </div>
+  `;
+
+  const menuParaCartinhas = document.querySelector(".menu-historia");
+  if (menuParaCartinhas) {
+    menuParaCartinhas.insertAdjacentElement("afterend", painelCartinhas);
+  }
+
+  const contadorCartinhas = painelCartinhas.querySelector(".contador-cartinhas");
+
+  function atualizarProgressoCartinhas() {
+    contadorCartinhas.textContent = cartinhasEncontradas.size + "/3";
+
+    painelCartinhas.querySelectorAll(".cartinha-status").forEach(function (item) {
+      const numero = Number(item.dataset.cartinha);
+      item.classList.toggle("encontrada", cartinhasEncontradas.has(numero));
+      item.textContent = cartinhasEncontradas.has(numero) ? "✓" : numero;
+    });
+
+    if (cartinhasEncontradas.size === 3) {
+      painelCartinhas.classList.add("completo");
+      painelCartinhas.querySelector(".painel-cartinhas-dica").innerHTML =
+        "✨ Você encontrou todas! A surpresa secreta final foi desbloqueada lá no fim da página. ❤️";
+
+      const surpresaColecao = document.getElementById("surpresaColecao");
+      if (surpresaColecao) {
+        surpresaColecao.classList.add("desbloqueada");
+        surpresaColecao.querySelector(".surpresa-colecao-status").textContent =
+          "🔓 DESBLOQUEADA";
+        surpresaColecao.querySelector(".surpresa-colecao-botao").disabled = false;
+      }
+    }
+  }
+
+  function registrarCartinha(numero, titulo, mensagem) {
+    const nova = !cartinhasEncontradas.has(numero);
+    cartinhasEncontradas.add(numero);
+    atualizarProgressoCartinhas();
+
+    if (nova) {
+      abrirMensagemSecreta(
+        "💌 Cartinha " + numero + " de 3 encontrada!",
+        mensagem
+      );
+      criarChuvaDeCoracoes();
+    } else {
+      abrirMensagemSecreta(titulo, mensagem);
+    }
+  }
+
+  const atalhoTopo = painelCartinhas.querySelector(".atalho-coracao-topo");
+  if (atalhoTopo) {
+    atalhoTopo.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(function () {
+        const coracao = document.querySelector(".topbar-logo span");
+        if (coracao) {
+          coracao.classList.add("coracao-topo-destaque");
+          setTimeout(function () {
+            coracao.classList.remove("coracao-topo-destaque");
+          }, 2800);
+        }
+      }, 450);
+    });
+  }
+
+
+
+  // ==================================================
   // MÚSICA
   // ==================================================
 
@@ -260,114 +361,6 @@ document.addEventListener("DOMContentLoaded", function () {
     1000
   );
 
-
-
-  // ==================================================
-  // MAPA DAS SURPRESAS — BEM FÁCIL DE ENCONTRAR
-  // ==================================================
-
-  const menuHistoria = document.querySelector(".menu-historia");
-
-  if (menuHistoria) {
-    const mapaSurpresas = document.createElement("section");
-
-    mapaSurpresas.className = "mapa-surpresas";
-
-    mapaSurpresas.innerHTML = `
-      <div class="mapa-surpresas-cabecalho">
-        <span>💌</span>
-
-        <div>
-          <small>SURPRESAS ESCONDIDAS</small>
-          <strong>Tem 3 cartinhas especiais para você encontrar ❤️</strong>
-        </div>
-      </div>
-
-      <div class="mapa-surpresas-lista">
-
-        <a href="#memorias" class="mapa-surpresa-item">
-          <span class="mapa-numero">1</span>
-
-          <div>
-            <strong>Cartinha das Memórias</strong>
-            <small>
-              Vá até “Memórias” e procure o coração com “TOCA AQUI”.
-            </small>
-          </div>
-
-          <b>IR ↓</b>
-        </a>
-
-        <a href="#carta" class="mapa-surpresa-item">
-          <span class="mapa-numero">2</span>
-
-          <div>
-            <strong>Cartinha da Carta</strong>
-            <small>
-              Vá até “Carta” e fique lá por 3 segundos.
-            </small>
-          </div>
-
-          <b>IR ↓</b>
-        </a>
-
-        <button type="button" class="mapa-surpresa-item mapa-topo-btn">
-          <span class="mapa-numero">3</span>
-
-          <div>
-            <strong>Segredo do coração do topo</strong>
-            <small>
-              Toque 5 vezes no coração rosa ao lado de “Para minha Malu”.
-            </small>
-          </div>
-
-          <b>VER ↑</b>
-        </button>
-
-      </div>
-    `;
-
-    menuHistoria.insertAdjacentElement(
-      "afterend",
-      mapaSurpresas
-    );
-
-    const botaoTopoMapa =
-      mapaSurpresas.querySelector(".mapa-topo-btn");
-
-    if (botaoTopoMapa) {
-      botaoTopoMapa.addEventListener(
-        "click",
-        function () {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-
-          setTimeout(
-            function () {
-              const coracao =
-                document.querySelector(".topbar-logo span");
-
-              if (coracao) {
-                coracao.classList.add("coracao-topo-destaque");
-
-                setTimeout(
-                  function () {
-                    coracao.classList.remove(
-                      "coracao-topo-destaque"
-                    );
-                  },
-                  2800
-                );
-              }
-            },
-            450
-          );
-        }
-      );
-    }
-  }
 
 
   // ==================================================
@@ -653,12 +646,11 @@ document.addEventListener("DOMContentLoaded", function () {
       "click",
       function () {
 
-        abrirMensagemSecreta(
-          "Você encontrou um pedacinho secreto do meu coração.",
-          "E adivinha? Ele já era seu. ❤️"
+        registrarCartinha(
+          1,
+          "Cartinha das Memórias ❤️",
+          "Tem lembranças que parecem pequenas para o mundo, mas que eu guardaria para sempre. E adivinha? Esse pedacinho do meu coração já era seu. ❤️"
         );
-
-        criarChuvaDeCoracoes();
 
       }
     );
@@ -749,6 +741,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
           mensagemCarta.classList.add(
             "ativa"
+          );
+
+          registrarCartinha(
+            2,
+            "Cartinha para quando você tiver dúvidas 💌",
+            "Mesmo nos dias em que você duvidar, eu vou continuar escolhendo você. ❤️"
           );
 
           dicaCarta.classList.remove(
@@ -936,12 +934,11 @@ document.addEventListener("DOMContentLoaded", function () {
           dicaTopo.innerHTML =
             "<span>❤️</span><strong>DESCOBRIU!</strong>";
 
-          abrirMensagemSecreta(
-            "Você descobriu meu segredo. 👀❤️",
+          registrarCartinha(
+            3,
+            "Segredo do coração do topo 👀❤️",
             "Entre todas as pessoas que poderiam ter aparecido na minha vida, eu agradeço todos os dias por ter sido você, minha timelo."
           );
-
-          criarChuvaDeCoracoes();
 
           setTimeout(
             function () {
@@ -956,6 +953,33 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     );
 
+  }
+
+
+
+  // ==================================================
+  // QUARTA SURPRESA — DESBLOQUEADA APÓS 3/3
+  // ==================================================
+
+  const surpresaColecao = document.getElementById("surpresaColecao");
+
+  if (surpresaColecao) {
+    const botaoColecao = surpresaColecao.querySelector(".surpresa-colecao-botao");
+
+    if (botaoColecao) {
+      botaoColecao.addEventListener("click", function () {
+        if (cartinhasEncontradas.size < 3) return;
+
+        surpresaColecao.classList.toggle("aberta");
+
+        if (surpresaColecao.classList.contains("aberta")) {
+          botaoColecao.textContent = "Eu escolheria você de novo ❤️";
+          criarChuvaDeCoracoes();
+        } else {
+          botaoColecao.textContent = "Abrir minha surpresa ❤️";
+        }
+      });
+    }
   }
 
 
