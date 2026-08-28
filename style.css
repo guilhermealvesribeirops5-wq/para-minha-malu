@@ -2316,3 +2316,258 @@ body.final-aberto {
   }
 }
 
+
+
+/* =========================================================
+   ABRA QUANDO...
+========================================================= */
+
+.abra-quando-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.abra-quando-section::before {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(255, 92, 139, .06);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.abra-quando-grid {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 820px);
+  margin: 34px auto 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.abra-carta {
+  position: relative;
+  width: 100%;
+  min-height: 145px;
+  padding: 22px 20px 20px 86px;
+  border: 1px solid rgba(255, 111, 152, .22);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,111,152,.055)),
+    #120a0e;
+  color: #fff;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 14px 35px rgba(0,0,0,.2);
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+
+.abra-carta:active {
+  transform: scale(.985);
+}
+
+.abra-carta-icone {
+  position: absolute;
+  top: 24px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,111,152,.32);
+  border-radius: 16px;
+  background: rgba(255,111,152,.09);
+  font-size: 1.45rem;
+}
+
+.abra-carta small {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--pink-2);
+  font-size: .63rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.abra-carta strong {
+  display: block;
+  padding-right: 5px;
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.abra-carta em {
+  display: inline-block;
+  margin-top: 13px;
+  color: rgba(255,255,255,.48);
+  font-size: .7rem;
+  font-style: normal;
+}
+
+.abra-carta.ja-aberta::after {
+  content: "ABERTA ✓";
+  position: absolute;
+  right: 14px;
+  top: 13px;
+  color: var(--pink-2);
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.abra-carta-destaque {
+  border-color: rgba(255,111,152,.5);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,111,152,.14), transparent 35%),
+    linear-gradient(135deg, #211019, #10080c);
+}
+
+.abra-quando-final {
+  max-width: 600px;
+  margin: 28px auto 0;
+  color: rgba(255,255,255,.58);
+  font-family: Georgia, serif;
+  font-size: .9rem;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Modal das cartinhas */
+
+body.abra-modal-aberto {
+  overflow: hidden;
+}
+
+.abra-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000000;
+  display: grid;
+  place-items: center;
+  padding: 22px 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: .35s ease;
+}
+
+.abra-modal.ativa {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.abra-modal-fundo {
+  position: absolute;
+  inset: 0;
+  background: rgba(5,2,4,.86);
+  backdrop-filter: blur(10px);
+}
+
+.abra-modal-carta {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 560px);
+  max-height: min(82vh, 720px);
+  overflow-y: auto;
+  padding: 38px 24px 30px;
+  border: 1px solid rgba(255,111,152,.36);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,111,152,.13), transparent 32%),
+    linear-gradient(145deg, #1b0d14, #0e080b);
+  box-shadow: 0 25px 80px rgba(0,0,0,.55);
+  text-align: center;
+  transform: translateY(22px) scale(.97);
+  transition: transform .45s ease;
+}
+
+.abra-modal.ativa .abra-modal-carta {
+  transform: translateY(0) scale(1);
+}
+
+.abra-modal-coracao {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--pink);
+  font-size: 2.7rem;
+  animation: segredoPulsando 1.5s infinite;
+}
+
+.abra-modal-carta > small {
+  color: var(--pink-2);
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.abra-modal-carta h3 {
+  margin: 15px auto 20px;
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: clamp(1.8rem, 8vw, 2.7rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.abra-modal-carta > p {
+  margin: 0 auto;
+  max-width: 470px;
+  color: #dccdd3;
+  font-size: .92rem;
+  line-height: 1.85;
+}
+
+.abra-modal-assinatura {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: rgba(255,255,255,.55);
+  font-size: .78rem;
+  line-height: 1.6;
+}
+
+.abra-modal-assinatura strong {
+  color: var(--pink-2);
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.abra-modal-fechar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%;
+  background: rgba(255,255,255,.04);
+  color: #fff;
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (min-width: 720px) {
+  .abra-quando-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .abra-carta-destaque {
+    grid-column: 1 / -1;
+  }
+}
+
