@@ -8,14 +8,139 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnSurpresa = document.getElementById("btnSurpresa");
   const surpresa = document.getElementById("surpresa");
 
+  const botaoComecar = document.querySelector(".hero-button");
+  const secaoHistoria = document.getElementById("historia");
+
   const inicioRelacionamento = new Date("2026-03-28T00:00:00");
 
 
   // =========================
-  // CONTADOR DO RELACIONAMENTO
+  // MÚSICA
+  // =========================
+
+  const musica = new Audio("musicas/die-with-a-smile.mp3");
+
+  musica.loop = true;
+  musica.volume = 0.7;
+
+
+  const player = document.createElement("div");
+
+  player.className = "player-musica";
+
+  player.innerHTML = `
+    <div class="player-info">
+      <span class="player-icon">♫</span>
+
+      <div>
+        <strong>Die With A Smile</strong>
+        <small>Lady Gaga & Bruno Mars</small>
+      </div>
+    </div>
+
+    <button
+      id="btnMusica"
+      class="btn-musica"
+      aria-label="Pausar música"
+    >
+      ❚❚
+    </button>
+  `;
+
+  document.body.appendChild(player);
+
+
+  const btnMusica =
+    document.getElementById("btnMusica");
+
+
+  function mostrarPlayer() {
+    player.classList.add("ativo");
+  }
+
+
+  function iniciarMusica() {
+
+    musica.play()
+      .then(function () {
+
+        mostrarPlayer();
+
+        btnMusica.textContent = "❚❚";
+
+      })
+      .catch(function () {
+
+        btnMusica.textContent = "▶";
+
+      });
+
+  }
+
+
+  if (
+    botaoComecar &&
+    secaoHistoria
+  ) {
+
+    botaoComecar.addEventListener(
+      "click",
+      function (event) {
+
+        event.preventDefault();
+
+        iniciarMusica();
+
+        setTimeout(
+          function () {
+
+            secaoHistoria.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+          },
+          250
+        );
+
+      }
+    );
+
+  }
+
+
+  if (btnMusica) {
+
+    btnMusica.addEventListener(
+      "click",
+      function () {
+
+        if (musica.paused) {
+
+          musica.play();
+
+          btnMusica.textContent = "❚❚";
+
+        } else {
+
+          musica.pause();
+
+          btnMusica.textContent = "▶";
+
+        }
+
+      }
+    );
+
+  }
+
+
+  // =========================
+  // CONTADOR
   // =========================
 
   function atualizarContador() {
+
     if (
       !diasEl ||
       !horasEl ||
@@ -25,48 +150,67 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+
     const agora = new Date();
 
     let diferenca =
       agora.getTime() -
       inicioRelacionamento.getTime();
 
+
     if (diferenca < 0) {
       diferenca = 0;
     }
 
+
     const segundosTotais =
-      Math.floor(diferenca / 1000);
+      Math.floor(
+        diferenca / 1000
+      );
+
 
     const dias =
-      Math.floor(segundosTotais / 86400);
+      Math.floor(
+        segundosTotais / 86400
+      );
+
 
     const horas =
       Math.floor(
         (segundosTotais % 86400) / 3600
       );
 
+
     const minutos =
       Math.floor(
         (segundosTotais % 3600) / 60
       );
 
+
     const segundos =
       segundosTotais % 60;
 
-    diasEl.textContent = dias;
+
+    diasEl.textContent =
+      dias;
+
 
     horasEl.textContent =
       String(horas).padStart(2, "0");
 
+
     minutosEl.textContent =
       String(minutos).padStart(2, "0");
 
+
     segundosEl.textContent =
       String(segundos).padStart(2, "0");
+
   }
 
+
   atualizarContador();
+
 
   setInterval(
     atualizarContador,
@@ -87,34 +231,22 @@ document.addEventListener("DOMContentLoaded", function () {
       "click",
       function () {
 
-        const estaAberta =
-          surpresa.classList.contains("ativa");
+        surpresa.classList.toggle("ativa");
 
-        if (estaAberta) {
 
-          surpresa.classList.remove("ativa");
-
-          btnSurpresa.textContent =
-            "Toca aqui, meu amor ❤️";
-
-        } else {
-
-          surpresa.classList.add("ativa");
+        if (
+          surpresa.classList.contains("ativa")
+        ) {
 
           btnSurpresa.textContent =
             "Eu te amo, Malu ❤️";
 
           criarChuvaDeCoracoes();
 
-          setTimeout(
-            function () {
-              surpresa.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-              });
-            },
-            250
-          );
+        } else {
+
+          btnSurpresa.textContent =
+            "Toca aqui, meu amor ♥";
 
         }
 
@@ -125,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // =========================
-  // CHUVA DE CORAÇÕES
+  // CORAÇÕES
   // =========================
 
   function criarChuvaDeCoracoes() {
@@ -153,12 +285,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const coracao =
       document.createElement("div");
 
+
     const simbolos = [
       "❤️",
       "💕",
       "💗",
       "💖"
     ];
+
 
     coracao.textContent =
       simbolos[
@@ -184,9 +318,6 @@ document.addEventListener("DOMContentLoaded", function () {
     coracao.style.pointerEvents =
       "none";
 
-    coracao.style.userSelect =
-      "none";
-
     coracao.style.fontSize =
       (
         16 +
@@ -209,18 +340,9 @@ document.addEventListener("DOMContentLoaded", function () {
     requestAnimationFrame(
       function () {
 
-        const deslocamento =
-          115 +
-          Math.random() * 35;
-
-        const rotacao =
-          Math.random() * 500;
-
         coracao.style.transform =
-          "translateY(-" +
-          deslocamento +
-          "vh) rotate(" +
-          rotacao +
+          "translateY(-130vh) rotate(" +
+          Math.random() * 500 +
           "deg)";
 
         coracao.style.opacity =
