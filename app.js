@@ -958,29 +958,130 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
-  // QUARTA SURPRESA — DESBLOQUEADA APÓS 3/3
+  // QUARTA SURPRESA — TELA CHEIA APÓS 3/3
   // ==================================================
 
   const surpresaColecao = document.getElementById("surpresaColecao");
+
+  const finalTela = document.createElement("div");
+  finalTela.className = "final-tela";
+  finalTela.setAttribute("aria-hidden", "true");
+
+  finalTela.innerHTML = `
+    <button type="button" class="final-tela-fechar" aria-label="Fechar">×</button>
+
+    <div class="final-tela-foto">
+      <img src="imagens/foto-10.jpg" alt="Nós dois">
+      <div class="final-tela-overlay"></div>
+    </div>
+
+    <div class="final-tela-conteudo">
+      <p class="final-tela-mini">VOCÊ ENCONTROU TODAS AS CARTINHAS 💌</p>
+
+      <h2>
+        Você chegou até o final...
+        <em>mas a nossa história não.</em>
+      </h2>
+
+      <p class="final-tela-texto final-frase ativa">
+        Se você chegou até aqui, encontrou três pedacinhos do que eu sinto por você.
+      </p>
+
+      <p class="final-tela-texto final-frase">
+        Mas nenhuma cartinha, nenhuma foto e nenhuma música conseguiria guardar tudo.
+      </p>
+
+      <p class="final-tela-texto final-frase">
+        Porque o que eu mais quero não é terminar esse site.
+        É continuar vivendo coisas com você para ter cada vez mais histórias para colocar aqui.
+      </p>
+
+      <div class="final-tela-declaracao">
+        Malu, eu escolheria você de novo. ❤️
+      </div>
+
+      <button type="button" class="hero-button final-proxima-frase">
+        Tenho mais uma coisa para te dizer... ❤️
+      </button>
+
+      <p class="final-tela-assinatura">
+        Com amor,<br>
+        <strong>seu amor, para minha timelo ♥</strong>
+      </p>
+    </div>
+  `;
+
+  document.body.appendChild(finalTela);
+
+  const fecharFinal = finalTela.querySelector(".final-tela-fechar");
+  const proximaFrase = finalTela.querySelector(".final-proxima-frase");
+  const frasesFinais = Array.from(finalTela.querySelectorAll(".final-frase"));
+  const declaracaoFinal = finalTela.querySelector(".final-tela-declaracao");
+  const assinaturaFinal = finalTela.querySelector(".final-tela-assinatura");
+  let indiceFraseFinal = 0;
+
+  function abrirFinalTela() {
+    if (cartinhasEncontradas.size < 3) return;
+
+    indiceFraseFinal = 0;
+
+    frasesFinais.forEach(function (frase, index) {
+      frase.classList.toggle("ativa", index === 0);
+    });
+
+    declaracaoFinal.classList.remove("ativa");
+    assinaturaFinal.classList.remove("ativa");
+
+    proximaFrase.style.display = "";
+    proximaFrase.textContent = "Tenho mais uma coisa para te dizer... ❤️";
+
+    finalTela.classList.add("ativa");
+    finalTela.setAttribute("aria-hidden", "false");
+    document.body.classList.add("final-aberto");
+
+    criarChuvaDeCoracoes();
+  }
+
+  function fecharFinalTela() {
+    finalTela.classList.remove("ativa");
+    finalTela.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("final-aberto");
+  }
 
   if (surpresaColecao) {
     const botaoColecao = surpresaColecao.querySelector(".surpresa-colecao-botao");
 
     if (botaoColecao) {
-      botaoColecao.addEventListener("click", function () {
-        if (cartinhasEncontradas.size < 3) return;
-
-        surpresaColecao.classList.toggle("aberta");
-
-        if (surpresaColecao.classList.contains("aberta")) {
-          botaoColecao.textContent = "Eu escolheria você de novo ❤️";
-          criarChuvaDeCoracoes();
-        } else {
-          botaoColecao.textContent = "Abrir minha surpresa ❤️";
-        }
-      });
+      botaoColecao.addEventListener("click", abrirFinalTela);
     }
   }
+
+  fecharFinal.addEventListener("click", fecharFinalTela);
+
+  finalTela.addEventListener("click", function (event) {
+    if (event.target === finalTela) {
+      fecharFinalTela();
+    }
+  });
+
+  proximaFrase.addEventListener("click", function () {
+    indiceFraseFinal += 1;
+
+    if (indiceFraseFinal < frasesFinais.length) {
+      frasesFinais[indiceFraseFinal].classList.add("ativa");
+
+      if (indiceFraseFinal === frasesFinais.length - 1) {
+        proximaFrase.textContent = "Agora toca aqui, meu amor ❤️";
+      }
+
+      return;
+    }
+
+    declaracaoFinal.classList.add("ativa");
+    assinaturaFinal.classList.add("ativa");
+    proximaFrase.style.display = "none";
+    criarChuvaDeCoracoes();
+  });
 
 
   // ==================================================
