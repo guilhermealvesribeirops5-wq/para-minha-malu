@@ -1144,6 +1144,45 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+
+  // ==================================================
+  // ABRA QUANDO...
+  // ==================================================
+
+  const abraCartas = document.querySelectorAll(".abra-carta");
+  const abraModal = document.getElementById("abraModal");
+  const abraModalTitulo = document.getElementById("abraModalTitulo");
+  const abraModalMensagem = document.getElementById("abraModalMensagem");
+
+  if (abraModal && abraCartas.length) {
+    const fecharAbraModal = abraModal.querySelector(".abra-modal-fechar");
+    const fundoAbraModal = abraModal.querySelector(".abra-modal-fundo");
+
+    function fecharCartinhaAbraQuando() {
+      abraModal.classList.remove("ativa");
+      abraModal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("abra-modal-aberto");
+    }
+
+    abraCartas.forEach(function (carta) {
+      carta.addEventListener("click", function () {
+        abraModalTitulo.textContent = carta.dataset.titulo || "Para você ❤️";
+        abraModalMensagem.textContent = carta.dataset.mensagem || "";
+
+        abraModal.classList.add("ativa");
+        abraModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("abra-modal-aberto");
+
+        carta.classList.add("ja-aberta");
+        criarChuvaDeCoracoes();
+      });
+    });
+
+    fecharAbraModal.addEventListener("click", fecharCartinhaAbraQuando);
+    fundoAbraModal.addEventListener("click", fecharCartinhaAbraQuando);
+  }
+
+
   // ==================================================
   // CHUVA DE CORAÇÕES
   // ==================================================
