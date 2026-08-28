@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.body.appendChild(player);
 
+
   const btnMusica =
     document.getElementById("btnMusica");
 
@@ -86,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (musica.paused) {
 
       btnMusica.textContent = "▶";
+
       btnMusica.setAttribute(
         "aria-label",
         "Tocar música"
@@ -94,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
 
       btnMusica.textContent = "❚❚";
+
       btnMusica.setAttribute(
         "aria-label",
         "Pausar música"
@@ -132,14 +135,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (secaoHistoria) {
 
-          setTimeout(function () {
+          setTimeout(
+            function () {
 
-            secaoHistoria.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
+              secaoHistoria.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+              });
 
-          }, 200);
+            },
+            200
+          );
 
         }
 
@@ -187,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
-  // CONTADOR DO RELACIONAMENTO
+  // CONTADOR
   // ==================================================
 
   function atualizarContador() {
@@ -201,56 +207,45 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-
     const agora = new Date();
 
     let diferenca =
       agora.getTime() -
       inicioRelacionamento.getTime();
 
-
     if (diferenca < 0) {
       diferenca = 0;
     }
 
-
     const segundosTotais =
       Math.floor(diferenca / 1000);
-
 
     const dias =
       Math.floor(
         segundosTotais / 86400
       );
 
-
     const horas =
       Math.floor(
         (segundosTotais % 86400) / 3600
       );
-
 
     const minutos =
       Math.floor(
         (segundosTotais % 3600) / 60
       );
 
-
     const segundos =
       segundosTotais % 60;
-
 
     diasEl.textContent =
       dias;
 
-
     horasEl.textContent =
       String(horas).padStart(2, "0");
 
-
     minutosEl.textContent =
       String(minutos).padStart(2, "0");
-
 
     segundosEl.textContent =
       String(segundos).padStart(2, "0");
@@ -267,363 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
-  // GALERIA EM TELA CHEIA
-  // ==================================================
-
-  const modalFoto =
-    document.createElement("div");
-
-  modalFoto.className = "modal-foto";
-
-  modalFoto.innerHTML = `
-    <button
-      class="modal-foto-fechar"
-      type="button"
-      aria-label="Fechar foto"
-    >
-      ×
-    </button>
-
-    <img
-      class="modal-foto-imagem"
-      src=""
-      alt="Nossa memória"
-    >
-
-    <div class="modal-foto-coracao">
-      ♥
-    </div>
-  `;
-
-  document.body.appendChild(modalFoto);
-
-
-  const imagemModal =
-    modalFoto.querySelector(
-      ".modal-foto-imagem"
-    );
-
-  const fecharModal =
-    modalFoto.querySelector(
-      ".modal-foto-fechar"
-    );
-
-
-  const fotosGaleria =
-    document.querySelectorAll(
-      "#fotos img, .gallery img, .galeria img"
-    );
-
-
-  fotosGaleria.forEach(function (foto) {
-
-    foto.classList.add(
-      "foto-clicavel"
-    );
-
-    foto.addEventListener(
-      "click",
-      function () {
-
-        imagemModal.src =
-          foto.src;
-
-        imagemModal.alt =
-          foto.alt || "Nossa memória";
-
-        modalFoto.classList.add(
-          "ativo"
-        );
-
-        document.body.classList.add(
-          "modal-aberto"
-        );
-
-      }
-    );
-
-  });
-
-
-  function fecharFoto() {
-
-    modalFoto.classList.remove(
-      "ativo"
-    );
-
-    document.body.classList.remove(
-      "modal-aberto"
-    );
-
-  }
-
-
-  fecharModal.addEventListener(
-    "click",
-    fecharFoto
-  );
-
-
-  modalFoto.addEventListener(
-    "click",
-    function (event) {
-
-      if (event.target === modalFoto) {
-        fecharFoto();
-      }
-
-    }
-  );
-
-
-  document.addEventListener(
-    "keydown",
-    function (event) {
-
-      if (event.key === "Escape") {
-        fecharFoto();
-      }
-
-    }
-  );
-
-
-  // ==================================================
-  // SURPRESA 1
-  // CORAÇÃO ESCONDIDO
-  // ==================================================
-
-  const areaSegredo =
-    document.getElementById("memorias") ||
-    document.getElementById("historia");
-
-
-  if (areaSegredo) {
-
-    const coracaoSecreto =
-      document.createElement("button");
-
-    coracaoSecreto.type =
-      "button";
-
-    coracaoSecreto.className =
-      "coracao-secreto";
-
-    coracaoSecreto.innerHTML =
-      "♥";
-
-    coracaoSecreto.setAttribute(
-      "aria-label",
-      "Segredo"
-    );
-
-    areaSegredo.appendChild(
-      coracaoSecreto
-    );
-
-
-    coracaoSecreto.addEventListener(
-      "click",
-      function () {
-
-        abrirMensagemSecreta(
-          "Você encontrou um pedacinho secreto do meu coração.",
-          "E adivinha? Ele já era seu. ❤️"
-        );
-
-        criarChuvaDeCoracoes();
-
-      }
-    );
-
-  }
-
-
-  // ==================================================
-  // SURPRESA 2
-  // MENSAGEM QUE APARECE NA CARTA
-  // ==================================================
-
-  const secaoCarta =
-    document.getElementById("carta");
-
-
-  if (secaoCarta) {
-
-    const mensagemCarta =
-      document.createElement("div");
-
-    mensagemCarta.className =
-      "mensagem-carta-secreta";
-
-    mensagemCarta.innerHTML = `
-      <span>ps...</span>
-
-      <p>
-        Se você chegou até aqui,
-        eu só quero que saiba mais uma coisa:
-      </p>
-
-      <strong>
-        mesmo nos dias em que você duvidar,
-        eu vou continuar escolhendo você.
-        ❤️
-      </strong>
-    `;
-
-    secaoCarta.appendChild(
-      mensagemCarta
-    );
-
-
-    let cartaJaAtivada = false;
-
-
-    const observarCarta =
-      new IntersectionObserver(
-        function (entradas) {
-
-          entradas.forEach(
-            function (entrada) {
-
-              if (
-                entrada.isIntersecting &&
-                !cartaJaAtivada
-              ) {
-
-                cartaJaAtivada = true;
-
-
-                setTimeout(
-                  function () {
-
-                    mensagemCarta.classList.add(
-                      "ativa"
-                    );
-
-                  },
-                  4000
-                );
-
-
-                observarCarta.disconnect();
-
-              }
-
-            }
-          );
-
-        },
-        {
-          threshold: 0.35
-        }
-      );
-
-
-    observarCarta.observe(
-      secaoCarta
-    );
-
-  }
-
-
-  // ==================================================
-  // SURPRESA 3
-  // 5 TOQUES NO CORAÇÃO DO TOPO
-  // ==================================================
-
-  const topbar =
-    document.querySelector(".topbar");
-
-
-  if (topbar) {
-
-    const segredoTopo =
-      document.createElement("button");
-
-    segredoTopo.type =
-      "button";
-
-    segredoTopo.className =
-      "segredo-topo";
-
-    segredoTopo.innerHTML =
-      "♥";
-
-    segredoTopo.setAttribute(
-      "aria-label",
-      "Coração"
-    );
-
-    topbar.appendChild(
-      segredoTopo
-    );
-
-
-    let quantidadeToques = 0;
-
-    let tempoReset = null;
-
-
-    segredoTopo.addEventListener(
-      "click",
-      function () {
-
-        quantidadeToques++;
-
-
-        segredoTopo.classList.add(
-          "tocando"
-        );
-
-
-        setTimeout(
-          function () {
-
-            segredoTopo.classList.remove(
-              "tocando"
-            );
-
-          },
-          180
-        );
-
-
-        clearTimeout(
-          tempoReset
-        );
-
-
-        tempoReset =
-          setTimeout(
-            function () {
-              quantidadeToques = 0;
-            },
-            4000
-          );
-
-
-        if (quantidadeToques >= 5) {
-
-          quantidadeToques = 0;
-
-          abrirMensagemSecreta(
-            "Você descobriu meu segredo. 👀❤️",
-            "Entre todas as pessoas que poderiam ter aparecido na minha vida, eu agradeço todos os dias por ter sido você, minha timelo."
-          );
-
-          criarChuvaDeCoracoes();
-
-        }
-
-      }
-    );
-
-  }
-
-
-  // ==================================================
-  // JANELA DAS MENSAGENS SECRETAS
+  // MODAL DAS MENSAGENS SECRETAS
   // ==================================================
 
   const modalSegredo =
@@ -735,6 +374,382 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
+  // GALERIA EM TELA CHEIA
+  // ==================================================
+
+  const modalFoto =
+    document.createElement("div");
+
+  modalFoto.className = "modal-foto";
+
+  modalFoto.innerHTML = `
+    <button
+      class="modal-foto-fechar"
+      type="button"
+      aria-label="Fechar foto"
+    >
+      ×
+    </button>
+
+    <img
+      class="modal-foto-imagem"
+      src=""
+      alt="Nossa memória"
+    >
+
+    <div class="modal-foto-coracao">
+      ♥
+    </div>
+  `;
+
+  document.body.appendChild(
+    modalFoto
+  );
+
+
+  const imagemModal =
+    modalFoto.querySelector(
+      ".modal-foto-imagem"
+    );
+
+  const fecharModal =
+    modalFoto.querySelector(
+      ".modal-foto-fechar"
+    );
+
+
+  const fotosGaleria =
+    document.querySelectorAll(
+      "#fotos img"
+    );
+
+
+  fotosGaleria.forEach(
+    function (foto) {
+
+      foto.classList.add(
+        "foto-clicavel"
+      );
+
+      foto.addEventListener(
+        "click",
+        function () {
+
+          imagemModal.src =
+            foto.src;
+
+          imagemModal.alt =
+            foto.alt || "Nossa memória";
+
+          modalFoto.classList.add(
+            "ativo"
+          );
+
+          document.body.classList.add(
+            "modal-aberto"
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  function fecharFoto() {
+
+    modalFoto.classList.remove(
+      "ativo"
+    );
+
+    document.body.classList.remove(
+      "modal-aberto"
+    );
+
+  }
+
+
+  fecharModal.addEventListener(
+    "click",
+    fecharFoto
+  );
+
+
+  modalFoto.addEventListener(
+    "click",
+    function (event) {
+
+      if (
+        event.target === modalFoto
+      ) {
+
+        fecharFoto();
+
+      }
+
+    }
+  );
+
+
+  // ==================================================
+  // CORAÇÃO ESCONDIDO EM MEMÓRIAS
+  // ==================================================
+
+  const areaSegredo =
+    document.getElementById("memorias");
+
+
+  if (areaSegredo) {
+
+    const coracaoSecreto =
+      document.createElement("button");
+
+    coracaoSecreto.type =
+      "button";
+
+    coracaoSecreto.className =
+      "coracao-secreto";
+
+    coracaoSecreto.innerHTML =
+      "♥";
+
+    coracaoSecreto.setAttribute(
+      "aria-label",
+      "Segredo"
+    );
+
+    areaSegredo.appendChild(
+      coracaoSecreto
+    );
+
+
+    coracaoSecreto.addEventListener(
+      "click",
+      function () {
+
+        abrirMensagemSecreta(
+          "Você encontrou um pedacinho secreto do meu coração.",
+          "E adivinha? Ele já era seu. ❤️"
+        );
+
+        criarChuvaDeCoracoes();
+
+      }
+    );
+
+  }
+
+
+  // ==================================================
+  // SURPRESA DA CARTA
+  // ==================================================
+
+  const secaoCarta =
+    document.getElementById("carta");
+
+  const cartaPrincipal =
+    document.querySelector(".letter-card");
+
+
+  if (
+    secaoCarta &&
+    cartaPrincipal
+  ) {
+
+    const mensagemCarta =
+      document.createElement("div");
+
+    mensagemCarta.className =
+      "mensagem-carta-secreta";
+
+    mensagemCarta.innerHTML = `
+      <span>ps...</span>
+
+      <p>
+        Se você chegou até aqui,
+        eu só quero que saiba
+        mais uma coisa:
+      </p>
+
+      <strong>
+        mesmo nos dias em que
+        você duvidar,
+        eu vou continuar
+        escolhendo você. ❤️
+      </strong>
+    `;
+
+    cartaPrincipal.appendChild(
+      mensagemCarta
+    );
+
+
+    let cartaAtivada =
+      false;
+
+
+    function ativarCarta() {
+
+      if (cartaAtivada) return;
+
+      cartaAtivada =
+        true;
+
+      setTimeout(
+        function () {
+
+          mensagemCarta.classList.add(
+            "ativa"
+          );
+
+        },
+        3000
+      );
+
+    }
+
+
+    if (
+      "IntersectionObserver"
+      in window
+    ) {
+
+      const observarCarta =
+        new IntersectionObserver(
+          function (entradas) {
+
+            entradas.forEach(
+              function (entrada) {
+
+                if (
+                  entrada.isIntersecting
+                ) {
+
+                  ativarCarta();
+
+                  observarCarta.disconnect();
+
+                }
+
+              }
+            );
+
+          },
+          {
+            threshold: 0.05
+          }
+        );
+
+
+      observarCarta.observe(
+        cartaPrincipal
+      );
+
+    } else {
+
+      ativarCarta();
+
+    }
+
+  }
+
+
+  // ==================================================
+  // SEGREDO DOS 5 TOQUES
+  // USA O CORAÇÃO QUE JÁ EXISTE NO TOPO
+  // ==================================================
+
+  const coracaoTopo =
+    document.querySelector(
+      ".topbar-logo span"
+    );
+
+
+  if (coracaoTopo) {
+
+    coracaoTopo.style.cursor =
+      "pointer";
+
+    coracaoTopo.style.userSelect =
+      "none";
+
+    let quantidadeToques =
+      0;
+
+    let tempoReset =
+      null;
+
+
+    coracaoTopo.addEventListener(
+      "click",
+      function () {
+
+        quantidadeToques++;
+
+
+        coracaoTopo.style.transform =
+          "scale(1.35)";
+
+        coracaoTopo.style.display =
+          "inline-block";
+
+
+        setTimeout(
+          function () {
+
+            coracaoTopo.style.transform =
+              "scale(1)";
+
+          },
+          170
+        );
+
+
+        clearTimeout(
+          tempoReset
+        );
+
+
+        tempoReset =
+          setTimeout(
+            function () {
+
+              quantidadeToques =
+                0;
+
+            },
+            4000
+          );
+
+
+        if (
+          quantidadeToques >= 5
+        ) {
+
+          quantidadeToques =
+            0;
+
+          clearTimeout(
+            tempoReset
+          );
+
+
+          abrirMensagemSecreta(
+            "Você descobriu meu segredo. 👀❤️",
+            "Entre todas as pessoas que poderiam ter aparecido na minha vida, eu agradeço todos os dias por ter sido você, minha timelo."
+          );
+
+          criarChuvaDeCoracoes();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  // ==================================================
   // SURPRESA FINAL
   // ==================================================
 
@@ -761,7 +776,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
           btnSurpresa.innerHTML =
             "Toca aqui, meu amor <span>♥</span>";
-
 
         } else {
 
