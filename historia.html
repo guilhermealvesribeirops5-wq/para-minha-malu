@@ -17,7 +17,7 @@
 
   <link
     rel="stylesheet"
-    href="./style.css?v=50"
+    href="./style.css?v=60"
   >
 </head>
 
@@ -79,6 +79,11 @@
     <a href="#carta">
       <span>✉</span>
       Carta
+    </a>
+
+    <a href="#abra-quando">
+      <span>✉</span>
+      Abra quando
     </a>
 
     <a href="#futuro">
@@ -202,6 +207,11 @@
       <a href="#carta">
         <span>✉</span>
         Carta
+      </a>
+
+      <a href="#abra-quando">
+        <span>✉</span>
+        Abra quando
       </a>
 
       <a href="#futuro">
@@ -980,6 +990,89 @@
 
 
 
+
+    <!-- =========================
+         ABRA QUANDO...
+    ========================== -->
+
+    <section class="section abra-quando-section" id="abra-quando">
+
+      <div class="section-decoration">
+        <span></span>
+        ♡
+        <span></span>
+      </div>
+
+      <p class="section-small-title center">
+        UM CANTINHO PARA VOCÊ VOLTAR
+      </p>
+
+      <h2>
+        Abra quando...
+      </h2>
+
+      <p class="section-description">
+        Eu não vou conseguir estar do seu lado em todos os segundos.
+        Então deixei algumas palavras minhas aqui para os momentos
+        em que você precisar de mim. ❤️
+      </p>
+
+      <div class="abra-quando-grid">
+
+        <button class="abra-carta" type="button"
+          data-titulo="Quando você estiver triste ❤️"
+          data-mensagem="Meu amor, se hoje estiver pesado, não precisa fingir que está tudo bem. Eu queria poder te abraçar agora e ficar pertinho até esse aperto passar. Nunca esquece que você não precisa carregar tudo sozinha. Eu te amo nos dias felizes e também nos dias difíceis.">
+          <span class="abra-carta-icone">💌</span>
+          <small>ABRA QUANDO...</small>
+          <strong>você estiver triste</strong>
+          <em>Toque para abrir</em>
+        </button>
+
+        <button class="abra-carta" type="button"
+          data-titulo="Quando estiver com saudade de mim 🥺❤️"
+          data-mensagem="Se bateu saudade, pensa que em algum lugar eu também estou carregando um pedacinho seu comigo. Fecha os olhos por alguns segundos e imagina meu abraço, porque é exatamente onde eu gostaria que você estivesse agora.">
+          <span class="abra-carta-icone">💌</span>
+          <small>ABRA QUANDO...</small>
+          <strong>sentir saudade de mim</strong>
+          <em>Toque para abrir</em>
+        </button>
+
+        <button class="abra-carta" type="button"
+          data-titulo="Quando estiver insegura sobre nós 💗"
+          data-mensagem="Malu, eu sei que às vezes podem aparecer dúvidas. Quando isso acontecer, volta aqui e lembra de tudo que eu fiz questão de guardar sobre nós. Você faz parte dos meus planos, dos meus pensamentos e da vida que eu quero construir. Eu continuo escolhendo você.">
+          <span class="abra-carta-icone">💌</span>
+          <small>ABRA QUANDO...</small>
+          <strong>estiver insegura sobre nós</strong>
+          <em>Toque para abrir</em>
+        </button>
+
+        <button class="abra-carta" type="button"
+          data-titulo="Quando seu dia tiver sido ruim 🌙"
+          data-mensagem="Hoje talvez não tenha sido o seu dia, mas um dia ruim não diminui a mulher forte que você é. Descansa. Respira. Amanhã começa de novo. E se eu puder fazer qualquer coisa para deixar seu coração mais leve, eu quero estar aí.">
+          <span class="abra-carta-icone">💌</span>
+          <small>ABRA QUANDO...</small>
+          <strong>tiver tido um dia ruim</strong>
+          <em>Toque para abrir</em>
+        </button>
+
+        <button class="abra-carta abra-carta-destaque" type="button"
+          data-titulo="Quando quiser lembrar o quanto eu te amo ❤️"
+          data-mensagem="Eu amo seu sorriso, seus olhos, sua boca, sua força, sua determinação e até seu jeitinho de coelhinho comendo. Mas principalmente eu amo quem você é. E entre tantas possibilidades que a vida poderia ter colocado no meu caminho, eu sou feliz porque encontrei você, minha timelo.">
+          <span class="abra-carta-icone">❤️</span>
+          <small>ABRA QUANDO...</small>
+          <strong>quiser lembrar o quanto eu te amo</strong>
+          <em>Essa é especial</em>
+        </button>
+
+      </div>
+
+      <p class="abra-quando-final">
+        Essas cartinhas vão continuar aqui sempre que você precisar delas. ♥
+      </p>
+
+    </section>
+
+
     <!-- =========================
          FUTURO
     ========================== -->
@@ -1461,6 +1554,26 @@
   </main>
 
 
-  <script src="./app.js?v=50"></script>
+  <script src="./app.js?v=60"></script>
+
+  <div class="abra-modal" id="abraModal" aria-hidden="true">
+    <div class="abra-modal-fundo"></div>
+
+    <article class="abra-modal-carta">
+      <button class="abra-modal-fechar" type="button" aria-label="Fechar">×</button>
+
+      <span class="abra-modal-coracao">♥</span>
+      <small>UMA CARTINHA PARA MINHA MALU</small>
+      <h3 id="abraModalTitulo"></h3>
+      <p id="abraModalMensagem"></p>
+
+      <div class="abra-modal-assinatura">
+        Com amor,<br>
+        <strong>de quem ama você ♥</strong>
+      </div>
+    </article>
+  </div>
+
+
 </body>
 </html>
