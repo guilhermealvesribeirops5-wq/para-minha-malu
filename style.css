@@ -1594,3 +1594,123 @@ body.modal-aberto { overflow: hidden; }
     padding-right: 20px;
   }
 }
+
+/* ==================================================
+   DICAS DAS SURPRESAS
+================================================== */
+
+.dica-segredo {
+  width: min(92%, 560px);
+  margin: 24px auto 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  border: 1px dashed rgba(255, 111, 152, 0.45);
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 111, 152, 0.08),
+    rgba(90, 15, 45, 0.10)
+  );
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.dica-segredo > span {
+  font-size: 1.35rem;
+}
+
+.dica-segredo strong {
+  color: #fff;
+  font-size: 0.94rem;
+  line-height: 1.35;
+}
+
+.dica-segredo small {
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.dica-carta.esperando {
+  animation: dicaRespirando 1.2s ease-in-out infinite;
+}
+
+.dica-carta.descoberta {
+  border-style: solid;
+  border-color: rgba(255, 111, 152, 0.7);
+  background: rgba(255, 111, 152, 0.12);
+}
+
+@keyframes dicaRespirando {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+.coracao-secreto {
+  position: relative;
+}
+
+.coracao-secreto::after {
+  content: "TOCA AQUI";
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 5px);
+  transform: translateX(-50%);
+  width: max-content;
+  color: rgba(255,255,255,.62);
+  font-size: .58rem;
+  letter-spacing: .12em;
+  font-weight: 700;
+}
+
+.dica-topo-coracao {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 10px;
+  max-width: 230px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 111, 152, 0.32);
+  border-radius: 14px;
+  background: rgba(15, 7, 11, 0.96);
+  color: rgba(255,255,255,.82);
+  font-size: .72rem;
+  line-height: 1.35;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+  opacity: .82;
+  transform: translateY(0);
+  transition: .25s ease;
+  z-index: 1200;
+  pointer-events: none;
+}
+
+.dica-topo-coracao.ativa {
+  opacity: 1;
+  transform: translateY(3px) scale(1.02);
+  border-color: rgba(255, 111, 152, 0.62);
+}
+
+.dica-topo-coracao span {
+  margin-right: 4px;
+}
+
+@media (max-width: 520px) {
+  .dica-topo-coracao {
+    right: 8px;
+    max-width: 190px;
+    font-size: .66rem;
+  }
+
+  .dica-segredo {
+    width: min(94%, 520px);
+    padding: 14px 15px;
+  }
+}
