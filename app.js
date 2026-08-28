@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
-  // CORAÇÃO ESCONDIDO EM MEMÓRIAS
+  // CORAÇÃO ESCONDIDO EM MEMÓRIAS + DICA
   // ==================================================
 
   const areaSegredo =
@@ -500,6 +500,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   if (areaSegredo) {
+
+    const dicaMemorias =
+      document.createElement("div");
+
+    dicaMemorias.className =
+      "dica-segredo dica-memorias";
+
+    dicaMemorias.innerHTML = `
+      <span>👀</span>
+      <strong>Tem alguma coisa escondida por aqui...</strong>
+      <small>Talvez esse coração guarde uma surpresa.</small>
+    `;
+
+    areaSegredo.appendChild(
+      dicaMemorias
+    );
+
 
     const coracaoSecreto =
       document.createElement("button");
@@ -541,7 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
-  // SURPRESA DA CARTA
+  // SURPRESA DA CARTA + DICA VISÍVEL
   // ==================================================
 
   const secaoCarta =
@@ -555,6 +572,24 @@ document.addEventListener("DOMContentLoaded", function () {
     secaoCarta &&
     cartaPrincipal
   ) {
+
+    const dicaCarta =
+      document.createElement("div");
+
+    dicaCarta.className =
+      "dica-segredo dica-carta";
+
+    dicaCarta.innerHTML = `
+      <span>💌</span>
+      <strong>Não vai embora tão rápido...</strong>
+      <small>Fica alguns segundos aqui. Essa carta ainda não terminou.</small>
+    `;
+
+    cartaPrincipal.insertAdjacentElement(
+      "afterend",
+      dicaCarta
+    );
+
 
     const mensagemCarta =
       document.createElement("div");
@@ -579,7 +614,8 @@ document.addEventListener("DOMContentLoaded", function () {
       </strong>
     `;
 
-    cartaPrincipal.appendChild(
+    dicaCarta.insertAdjacentElement(
+      "afterend",
       mensagemCarta
     );
 
@@ -595,12 +631,30 @@ document.addEventListener("DOMContentLoaded", function () {
       cartaAtivada =
         true;
 
+      dicaCarta.classList.add(
+        "esperando"
+      );
+
       setTimeout(
         function () {
 
           mensagemCarta.classList.add(
             "ativa"
           );
+
+          dicaCarta.classList.remove(
+            "esperando"
+          );
+
+          dicaCarta.classList.add(
+            "descoberta"
+          );
+
+          dicaCarta.querySelector("strong").textContent =
+            "Você esperou... então merece ver isso. ❤️";
+
+          dicaCarta.querySelector("small").textContent =
+            "Olha logo abaixo.";
 
         },
         3000
@@ -655,8 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ==================================================
-  // SEGREDO DOS 5 TOQUES
-  // USA O CORAÇÃO QUE JÁ EXISTE NO TOPO
+  // SEGREDO DOS 5 TOQUES + DICA NO TOPO
   // ==================================================
 
   const coracaoTopo =
@@ -664,14 +717,41 @@ document.addEventListener("DOMContentLoaded", function () {
       ".topbar-logo span"
     );
 
+  const topbar =
+    document.querySelector(".topbar");
 
-  if (coracaoTopo) {
+
+  if (
+    coracaoTopo &&
+    topbar
+  ) {
+
+    const dicaTopo =
+      document.createElement("div");
+
+    dicaTopo.className =
+      "dica-topo-coracao";
+
+    dicaTopo.innerHTML = `
+      <span>👀</span>
+      Às vezes um toque não é suficiente...
+    `;
+
+    topbar.appendChild(
+      dicaTopo
+    );
+
 
     coracaoTopo.style.cursor =
       "pointer";
 
     coracaoTopo.style.userSelect =
       "none";
+
+    coracaoTopo.setAttribute(
+      "title",
+      "Talvez você precise insistir nesse coração..."
+    );
 
     let quantidadeToques =
       0;
@@ -692,6 +772,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
         coracaoTopo.style.display =
           "inline-block";
+
+
+        dicaTopo.classList.add(
+          "ativa"
+        );
+
+
+        if (quantidadeToques === 1) {
+          dicaTopo.innerHTML =
+            "<span>👀</span> Hmmm... acho que esse coração quer mais atenção.";
+        }
+
+        if (quantidadeToques === 2) {
+          dicaTopo.innerHTML =
+            "<span>❤️</span> Continua... você está chegando perto.";
+        }
+
+        if (quantidadeToques === 3) {
+          dicaTopo.innerHTML =
+            "<span>😏</span> Mais um pouquinho...";
+        }
+
+        if (quantidadeToques === 4) {
+          dicaTopo.innerHTML =
+            "<span>💗</span> Só mais uma vez.";
+        }
 
 
         setTimeout(
@@ -717,8 +823,15 @@ document.addEventListener("DOMContentLoaded", function () {
               quantidadeToques =
                 0;
 
+              dicaTopo.classList.remove(
+                "ativa"
+              );
+
+              dicaTopo.innerHTML =
+                "<span>👀</span> Às vezes um toque não é suficiente...";
+
             },
-            4000
+            5000
           );
 
 
@@ -733,6 +846,9 @@ document.addEventListener("DOMContentLoaded", function () {
             tempoReset
           );
 
+          dicaTopo.innerHTML =
+            "<span>❤️</span> Você descobriu!";
+
 
           abrirMensagemSecreta(
             "Você descobriu meu segredo. 👀❤️",
@@ -740,6 +856,18 @@ document.addEventListener("DOMContentLoaded", function () {
           );
 
           criarChuvaDeCoracoes();
+
+
+          setTimeout(
+            function () {
+
+              dicaTopo.classList.remove(
+                "ativa"
+              );
+
+            },
+            2500
+          );
 
         }
 
