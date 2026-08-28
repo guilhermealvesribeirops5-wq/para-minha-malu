@@ -1,1817 +1,459 @@
-:root {
-  --bg: #070506;
-  --bg-soft: #0d080a;
-  --bg-card: rgba(23, 14, 18, 0.88);
+/* ==================================================
+   GALERIA EM TELA CHEIA
+================================================== */
 
-  --text: #fff8fb;
-  --muted: #cbbbc3;
-
-  --pink: #ff6f98;
-  --pink-strong: #ff4f7f;
-  --pink-soft: #ff9ab7;
-
-  --wine: #35111d;
-
-  --border: rgba(255, 255, 255, 0.10);
-  --border-pink: rgba(255, 111, 152, 0.48);
-
-  --shadow:
-    0 20px 60px
-    rgba(0, 0, 0, 0.45);
+.foto-clicavel {
+  cursor: zoom-in;
 }
 
+.modal-foto {
+  position: fixed;
+  inset: 0;
 
-/* =========================
-   RESET
-========================= */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 120px;
-}
-
-
-body {
-  min-height: 100vh;
-
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(255, 79, 127, 0.10),
-      transparent 32%
-    ),
-    linear-gradient(
-      180deg,
-      #0b0608 0%,
-      #070506 45%,
-      #0b0608 100%
-    );
-
-  color: var(--text);
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  overflow-x: hidden;
-
-  line-height: 1.6;
-}
-
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-
-img {
-  display: block;
-  width: 100%;
-}
-
-
-button {
-  font: inherit;
-}
-
-
-main {
-  overflow: hidden;
-}
-
-
-/* =========================
-   PÁGINA INICIAL
-========================= */
-
-.pagina-inicial {
-  background: #080506;
-}
-
-
-.pagina-inicial .hero {
-  width: 100%;
-  min-height: 100svh;
-
-  position: relative;
+  z-index: 9990;
 
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
 
-  padding:
-    40px
-    22px
+  padding: 22px;
+
+  background:
+    rgba(8, 4, 7, 0.96);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.modal-foto.ativo {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-foto-imagem {
+  max-width: 95vw;
+  max-height: 85vh;
+
+  object-fit: contain;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 70px
+    rgba(0, 0, 0, 0.65);
+
+  transform: scale(0.92);
+
+  transition:
+    transform 0.35s ease;
+}
+
+.modal-foto.ativo
+.modal-foto-imagem {
+  transform: scale(1);
+}
+
+.modal-foto-fechar {
+  position: absolute;
+
+  top:
     calc(
-      55px +
+      18px +
+      env(safe-area-inset-top)
+    );
+
+  right: 18px;
+
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.15);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  font-size: 2rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.modal-foto-coracao {
+  position: absolute;
+
+  bottom:
+    calc(
+      20px +
       env(safe-area-inset-bottom)
     );
 
-  background:
-    url("imagens/foto-10.jpg")
-    center 30% / cover
-    no-repeat;
-}
+  left: 50%;
 
+  transform:
+    translateX(-50%);
 
-.pagina-inicial .hero::after {
-  content: "";
+  color: #ff7098;
 
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(7, 5, 6, 1) 0%,
-      rgba(7, 5, 6, 0.88) 26%,
-      rgba(7, 5, 6, 0.33) 58%,
-      rgba(7, 5, 6, 0.06) 100%
-    );
-}
-
-
-.pagina-inicial .hero-content {
-  width: min(100%, 680px);
-
-  position: relative;
-  z-index: 2;
-
-  text-align: center;
+  font-size: 2rem;
 
   animation:
-    subirSuave
-    1s ease;
+    pulsarCoracaoFoto
+    1.5s infinite;
+}
+
+body.modal-aberto {
+  overflow: hidden;
+}
+
+@keyframes pulsarCoracaoFoto {
+
+  0%,
+  100% {
+    transform:
+      translateX(-50%)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      scale(1.25);
+  }
+
 }
 
 
-.pagina-inicial .mini-text {
-  margin-bottom: 10px;
+/* ==================================================
+   CORAÇÃO SECRETO
+================================================== */
 
-  color: var(--pink-soft);
+.coracao-secreto {
+  display: block;
 
-  font-size: 0.90rem;
-  font-weight: 700;
-}
-
-
-.pagina-inicial .hero h1 {
-  margin-bottom: 18px;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(
-      3rem,
-      13vw,
-      5.5rem
-    );
-
-  line-height: 0.95;
-
-  letter-spacing: -0.05em;
-}
-
-
-.pagina-inicial .hero-text {
-  max-width: 560px;
+  width: 40px;
+  height: 40px;
 
   margin:
-    0 auto
-    28px;
-
-  color: #eee0e6;
-
-  font-size: 1rem;
-}
-
-
-.main-button {
-  min-height: 55px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding:
-    15px
-    25px;
+    28px
+    auto
+    0;
 
   border: 0;
 
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff769b,
-      #f74777
-    );
-
-  color: white;
-
-  font-weight: 800;
-
-  box-shadow:
-    0 12px 35px
-    rgba(255, 79, 127, 0.32);
-
-  cursor: pointer;
-}
-
-
-.hero-date {
-  margin-top: 24px;
+  background: transparent;
 
   color:
-    rgba(
-      255,
-      255,
-      255,
-      0.65
-    );
-
-  font-size: 0.78rem;
-
-  letter-spacing: 0.16em;
-}
-
-
-/* =========================
-   TOPO HISTÓRIA
-========================= */
-
-.topbar {
-  min-height: 68px;
-
-  position: sticky;
-  top: 0;
-  z-index: 200;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 15px;
-
-  padding:
-    10px
-    18px;
-
-  border-bottom:
-    1px solid
-    rgba(255, 255, 255, 0.08);
-
-  background:
-    rgba(8, 5, 7, 0.88);
-
-  backdrop-filter:
-    blur(18px);
-}
-
-
-.voltar-link {
-  min-height: 40px;
-
-  display: inline-flex;
-  align-items: center;
-
-  color: var(--pink-soft);
-
-  font-weight: 700;
-
-  font-size: 0.90rem;
-}
-
-
-.topbar-logo {
-  color: white;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 1.15rem;
-
-  font-style: italic;
-}
-
-
-.topbar-logo span {
-  color: var(--pink);
-}
-
-
-/* =========================
-   MENU SUPERIOR
-========================= */
-
-.menu-historia {
-  position: sticky;
-  top: 68px;
-  z-index: 190;
-
-  display: flex;
-
-  gap: 8px;
-
-  padding:
-    10px
-    12px;
-
-  overflow-x: auto;
-
-  border-bottom:
-    1px solid
-    rgba(255, 255, 255, 0.08);
-
-  background:
-    rgba(8, 5, 7, 0.93);
-
-  backdrop-filter:
-    blur(18px);
-
-  scrollbar-width: none;
-}
-
-
-.menu-historia::-webkit-scrollbar {
-  display: none;
-}
-
-
-.menu-historia a {
-  min-height: 42px;
-
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-
-  gap: 7px;
-
-  padding:
-    10px
-    15px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.08);
-
-  border-radius: 999px;
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
-  color: #e7d9df;
-
-  font-size: 0.83rem;
-
-  font-weight: 700;
-}
-
-
-.menu-historia a span {
-  color: var(--pink-soft);
-
-  font-size: 1rem;
-}
-
-
-.menu-historia .menu-ativo {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 120, 155, 0.82),
-      rgba(200, 74, 110, 0.70)
-    );
-
-  color: white;
-
-  border-color:
-    rgba(255, 150, 180, 0.35);
-}
-
-
-.menu-historia .menu-ativo span {
-  color: white;
-}
-
-
-/* =========================
-   HERO HISTÓRIA
-========================= */
-
-.history-hero {
-  min-height: calc(100svh - 68px);
-
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  padding:
-    120px
-    22px
-    28px;
-
-  background:
-    url("imagens/foto-10.jpg")
-    center 35% / cover
-    no-repeat;
-
-  overflow: hidden;
-}
-
-
-.history-hero-overlay {
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      to right,
-      rgba(7, 5, 6, 0.95) 0%,
-      rgba(7, 5, 6, 0.74) 50%,
-      rgba(7, 5, 6, 0.30) 100%
-    ),
-    linear-gradient(
-      to top,
-      rgba(7, 5, 6, 1) 0%,
-      transparent 38%
-    );
-}
-
-
-.history-hero::after {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(
-      circle at 18% 20%,
-      rgba(255, 95, 140, 0.15),
-      transparent 25%
-    );
-
-  pointer-events: none;
-}
-
-
-.coracoes-fundo span {
-  position: absolute;
-
-  z-index: 1;
-
-  color:
-    rgba(
-      255,
-      100,
-      145,
-      0.24
-    );
-
-  animation:
-    flutuarCoracao
-    5s ease-in-out
-    infinite;
-}
-
-
-.coracoes-fundo span:nth-child(1) {
-  left: 4%;
-  top: 38%;
-
-  font-size: 1.2rem;
-}
-
-
-.coracoes-fundo span:nth-child(2) {
-  right: 8%;
-  top: 29%;
+    rgba(255, 111, 152, 0.24);
 
   font-size: 1.5rem;
 
-  animation-delay: 1s;
-}
-
-
-.coracoes-fundo span:nth-child(3) {
-  left: 20%;
-  bottom: 12%;
-
-  font-size: 1rem;
-
-  animation-delay: 2s;
-}
-
-
-.coracoes-fundo span:nth-child(4) {
-  right: 14%;
-  bottom: 17%;
-
-  font-size: 1.8rem;
-
-  animation-delay: 0.5s;
-}
-
-
-.coracoes-fundo span:nth-child(5) {
-  right: 4%;
-  bottom: 8%;
-
-  font-size: 1.1rem;
-
-  animation-delay: 1.8s;
-}
-
-
-.history-hero-content {
-  width: min(100%, 900px);
-
-  position: relative;
-  z-index: 3;
-
-  margin:
-    0 auto
-    32px;
-}
-
-
-.hero-label {
-  margin-bottom: 15px;
-
-  color: var(--pink-soft);
-
-  font-size: 0.78rem;
-  font-weight: 900;
-
-  letter-spacing: 0.24em;
-}
-
-
-.history-hero h1 {
-  max-width: 620px;
-
-  margin-bottom: 18px;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(
-      3rem,
-      13vw,
-      6rem
-    );
-
-  line-height: 0.95;
-
-  letter-spacing: -0.04em;
-
-  font-weight: 400;
-}
-
-
-.history-hero h1 em {
-  display: block;
-
-  color: var(--pink-soft);
-
-  font-family:
-    "Brush Script MT",
-    "Segoe Script",
-    cursive;
-
-  font-size: 1.15em;
-
-  font-weight: 400;
-
-  line-height: 0.95;
-}
-
-
-.hero-detail {
-  display: flex;
-  align-items: center;
-
-  gap: 10px;
-
-  margin:
-    22px
-    0;
-
-  color: var(--pink);
-}
-
-
-.hero-detail span {
-  width: 52px;
-  height: 1px;
-
-  background: var(--pink);
-}
-
-
-.hero-description {
-  max-width: 530px;
-
-  margin-bottom: 27px;
-
-  color: #eadde3;
-
-  font-size: 1rem;
-}
-
-
-.hero-button {
-  min-height: 54px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 9px;
-
-  padding:
-    15px
-    28px;
-
-  border: none;
-
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff759b,
-      #f04473
-    );
-
-  color: white;
-
-  font-weight: 800;
-
-  box-shadow:
-    0 12px 35px
-    rgba(255, 79, 127, 0.32);
-
   cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-
-.hero-button span {
-  opacity: 0.9;
-}
-
-
-/* =========================
-   MENU INFERIOR HERO
-========================= */
-
-.hero-menu {
-  width: min(100%, 940px);
-
-  position: relative;
-  z-index: 3;
-
-  display: flex;
-
-  gap: 8px;
-
-  margin: 0 auto;
-
-  padding:
-    10px
-    12px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.13);
-
-  border-radius: 26px;
-
-  background:
-    rgba(10, 7, 8, 0.64);
-
-  backdrop-filter:
-    blur(16px);
-
-  overflow-x: auto;
-
-  scrollbar-width: none;
-}
-
-
-.hero-menu::-webkit-scrollbar {
-  display: none;
-}
-
-
-.hero-menu a {
-  min-height: 40px;
-
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-
-  gap: 6px;
-
-  padding:
-    8px
-    12px;
-
-  color: white;
-
-  font-size: 0.80rem;
-}
-
-
-.hero-menu a span {
-  color: var(--pink-soft);
-}
-
-
-/* =========================
-   SEÇÕES
-========================= */
-
-.section {
-  width: min(100%, 920px);
-
-  margin: 0 auto;
-
-  padding:
-    90px
-    22px;
-}
-
-
-.section-decoration {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  gap: 8px;
-
-  margin-bottom: 12px;
-
-  color: var(--pink);
-}
-
-
-.section-decoration span {
-  width: 42px;
-  height: 1px;
-
-  background:
-    linear-gradient(
-      to right,
-      transparent,
-      var(--pink)
-    );
-}
-
-
-.section-decoration span:last-child {
-  transform: scaleX(-1);
-}
-
-
-.section-small-title {
-  margin-bottom: 12px;
-
-  color: var(--pink-soft);
-
-  font-size: 0.75rem;
-
-  font-weight: 900;
-
-  letter-spacing: 0.24em;
-}
-
-
-.center {
-  text-align: center;
-}
-
-
-.section h2 {
-  max-width: 760px;
-
-  margin:
-    0 auto
-    35px;
-
-  text-align: center;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(
-      2.2rem,
-      9vw,
-      4rem
-    );
-
-  font-weight: 400;
-
-  line-height: 1.05;
-
-  letter-spacing: -0.035em;
-}
-
-
-.section-description {
-  max-width: 560px;
-
-  margin:
-    -16px auto
-    32px;
-
-  text-align: center;
-
-  color: var(--muted);
-}
-
-
-/* =========================
-   HISTÓRIA / TIMELINE
-========================= */
-
-.story-section {
-  position: relative;
-
-  padding-top: 85px;
-}
-
-
-.story-section::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(255, 79, 127, 0.05),
-      transparent 20%
-    );
-
-  pointer-events: none;
-}
-
-
-.story-title strong {
-  color: var(--pink-soft);
-
-  font-weight: 400;
-}
-
-
-.timeline {
-  position: relative;
-
-  margin-top: 45px;
-}
-
-
-.timeline::before {
-  content: "";
-
-  position: absolute;
-
-  left: 22px;
-  top: 30px;
-  bottom: 30px;
-
-  width: 1px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      transparent,
-      var(--pink),
-      var(--pink),
-      transparent
-    );
-}
-
-
-.timeline-item {
-  position: relative;
-
-  padding-left: 58px;
-
-  margin-bottom: 22px;
-}
-
-
-.timeline-heart {
-  width: 40px;
-  height: 40px;
-
-  position: absolute;
-
-  left: 2px;
-  top: 50%;
+.coracao-secreto:hover,
+.coracao-secreto:active {
+  color: #ff6f98;
 
   transform:
-    translateY(-50%);
-
-  z-index: 3;
-
-  display: grid;
-  place-items: center;
-
-  border:
-    1px solid
-    var(--pink);
-
-  border-radius: 50%;
-
-  background:
-    #10080b;
-
-  color: var(--pink);
-
-  box-shadow:
-    0 0 18px
-    rgba(255, 90, 135, 0.20);
+    scale(1.25);
 }
 
 
-.timeline-card {
-  display: grid;
-
-  gap: 18px;
-
-  padding: 20px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.10);
-
-  border-radius: 18px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(30, 18, 23, 0.95),
-      rgba(15, 10, 12, 0.95)
-    );
-
-  box-shadow:
-    0 15px 40px
-    rgba(0, 0, 0, 0.25);
-}
-
-
-.timeline-card-destaque {
-  border-color: var(--pink);
-
-  box-shadow:
-    0 0 28px
-    rgba(255, 79, 127, 0.10);
-}
-
-
-.timeline-year {
-  display: block;
-
-  margin-bottom: 6px;
-
-  color: var(--pink-soft);
-
-  font-weight: 900;
-
-  font-size: 0.90rem;
-}
-
-
-.timeline-text h3 {
-  margin-bottom: 9px;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 1.35rem;
-
-  font-weight: 400;
-}
-
-
-.timeline-text p {
-  color: var(--muted);
-
-  font-size: 0.92rem;
-}
-
-
-.timeline-photo {
-  overflow: hidden;
-
-  border-radius: 14px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.12);
-}
-
-
-.timeline-photo img {
-  width: 100%;
-  height: 180px;
-
-  object-fit: cover;
-}
-
-
-/* =========================
-   CONTADOR
-========================= */
-
-.contador-section {
-  text-align: center;
-}
-
-
-.contador {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 12px;
-}
-
-
-.contador-box {
-  min-height: 122px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  padding: 18px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius: 18px;
-
-  background:
-    radial-gradient(
-      circle at top,
-      rgba(255, 79, 127, 0.10),
-      transparent 60%
-    ),
-    rgba(255, 255, 255, 0.035);
-}
-
-
-.contador-box span {
-  color: white;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 2.5rem;
-
-  line-height: 1;
-}
-
-
-.contador-box small {
-  margin-top: 8px;
-
-  color: var(--pink-soft);
-
-  font-size: 0.68rem;
-
-  letter-spacing: 0.15em;
-}
-
-
-.contador-data {
-  margin-top: 24px;
-
-  color: var(--pink-soft);
-
-  font-size: 0.82rem;
-
-  letter-spacing: 0.18em;
-}
-
-
-/* =========================
-   BEIJO
-========================= */
-
-.beijo-card {
-  overflow: hidden;
-
-  border:
-    1px solid
-    var(--border-pink);
-
-  border-radius: 22px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(34, 18, 24, 0.95),
-      rgba(14, 9, 11, 0.95)
-    );
-
-  box-shadow:
-    var(--shadow);
-}
-
-
-.beijo-photo {
-  height: 320px;
-
-  position: relative;
-
-  overflow: hidden;
-}
-
-
-.beijo-photo img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-.beijo-photo-overlay {
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(10, 6, 8, 1),
-      transparent 60%
-    );
-}
-
-
-.beijo-heart {
-  position: absolute;
-
-  right: 20px;
-  bottom: 18px;
-
-  color: var(--pink);
-
-  font-size: 2rem;
-}
-
-
-.beijo-text {
-  padding: 24px;
-}
-
-
-.beijo-text p {
-  margin-bottom: 16px;
-
-  color: var(--muted);
-}
-
-
-.beijo-text strong {
-  display: block;
+/* ==================================================
+   SURPRESA DA CARTA
+================================================== */
+
+.mensagem-carta-secreta {
+  max-width: 650px;
 
   margin:
-    25px
-    0;
-
-  color: white;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 1.6rem;
-
-  font-weight: 400;
-}
-
-
-.beijo-final {
-  color: white !important;
-
-  font-weight: 700;
-}
-
-
-/* =========================
-   MEMÓRIAS
-========================= */
-
-.memory-grid {
-  display: grid;
-
-  gap: 14px;
-}
-
-
-.memory-new-card {
-  position: relative;
-
-  padding: 24px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(28, 17, 22, 0.85),
-      rgba(14, 9, 11, 0.92)
-    );
-}
-
-
-.memory-number {
-  position: absolute;
-
-  right: 18px;
-  top: 15px;
-
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size: 2.4rem;
-}
-
-
-.memory-icon {
-  width: 44px;
-  height: 44px;
-
-  display: grid;
-  place-items: center;
-
-  margin-bottom: 17px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255, 79, 127, 0.10);
-
-  color: var(--pink);
-}
-
-
-.memory-new-card h3 {
-  margin-bottom: 10px;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size: 1.35rem;
-
-  font-weight: 400;
-}
-
-
-.memory-new-card p {
-  color: var(--muted);
-}
-
-
-/* =========================
-   O QUE AMO
-========================= */
-
-.love-list {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 10px;
-
-  margin-bottom: 26px;
-}
-
-
-.love-item {
-  min-height: 65px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 9px;
-
-  padding: 14px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius: 16px;
-
-  background:
-    rgba(255, 255, 255, 0.035);
-}
-
-
-.love-item span {
-  color: var(--pink);
-}
-
-
-.love-quote {
-  position: relative;
-
-  padding: 24px;
-
-  border-left:
-    2px solid
-    var(--pink);
-
-  background:
-    linear-gradient(
-      to right,
-      rgba(255, 79, 127, 0.08),
-      transparent
-    );
-}
-
-
-.love-quote > span {
-  position: absolute;
-
-  top: -20px;
-  left: 10px;
-
-  color:
-    rgba(
-      255,
-      105,
-      145,
-      0.20
-    );
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size: 5rem;
-}
-
-
-.love-quote p {
-  position: relative;
-  z-index: 2;
-
-  color: #eee1e6;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size: 1.2rem;
-
-  font-style: italic;
-}
-
-
-/* =========================
-   GALERIA
-========================= */
-
-.gallery {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 8px;
-}
-
-
-.gallery img {
-  height: 230px;
-
-  object-fit: cover;
-
-  border-radius: 14px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.09);
-}
-
-
-.gallery img:nth-child(3),
-.gallery img:nth-child(6),
-.gallery img:nth-child(9) {
-  grid-column: span 2;
-
-  height: 310px;
-}
-
-
-/* =========================
-   CARTA
-========================= */
-
-.letter-card {
-  position: relative;
-
-  padding: 28px;
-
-  border:
-    1px solid
-    var(--border-pink);
-
-  border-radius: 22px;
-
-  background:
-    linear-gradient(
-      160deg,
-      rgba(40, 20, 28, 0.85),
-      rgba(14, 9, 11, 0.96)
-    );
-
-  box-shadow:
-    var(--shadow);
-}
-
-
-.letter-top {
-  padding-bottom: 18px;
-
-  margin-bottom: 25px;
-
-  border-bottom:
-    1px solid
-    rgba(255, 255, 255, 0.08);
-
-  color: var(--pink-soft);
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-style: italic;
-
-  font-size: 1.1rem;
-}
-
-
-.letter-card p {
-  margin-bottom: 19px;
-
-  color: #d8c8cf;
-}
-
-
-.letter-card blockquote {
-  margin:
-    26px
-    0;
+    30px auto 0;
 
   padding:
-    18px
-    20px;
+    22px;
 
-  border-left:
-    2px solid
-    var(--pink);
+  border:
+    1px solid
+    rgba(255, 111, 152, 0.22);
+
+  border-radius: 22px;
 
   background:
-    rgba(255, 79, 127, 0.07);
+    linear-gradient(
+      145deg,
+      rgba(255, 111, 152, 0.08),
+      rgba(111, 16, 49, 0.10)
+    );
 
-  color: white;
+  text-align: center;
+
+  opacity: 0;
+
+  transform:
+    translateY(28px);
+
+  pointer-events: none;
+
+  transition:
+    opacity 1.1s ease,
+    transform 1.1s ease;
+}
+
+.mensagem-carta-secreta.ativa {
+  opacity: 1;
+
+  transform:
+    translateY(0);
+
+  pointer-events: auto;
+}
+
+.mensagem-carta-secreta span {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  color: #ff7fa3;
 
   font-family:
     Georgia,
     serif;
+
+  font-style: italic;
 
   font-size: 1.15rem;
 }
 
+.mensagem-carta-secreta p {
+  margin:
+    0
+    0
+    12px;
 
-.letter-signature {
-  margin-top: 30px;
+  color:
+    rgba(255, 255, 255, 0.74);
 
-  color: #eee0e5;
+  line-height: 1.7;
 }
 
-
-.letter-signature strong {
+.mensagem-carta-secreta strong {
   display: block;
 
-  margin-top: 8px;
+  color: #fff;
 
-  color: var(--pink-soft);
-
-  font-family:
-    "Brush Script MT",
-    cursive;
-
-  font-size: 1.8rem;
-
-  font-weight: 400;
-}
-
-
-/* =========================
-   FUTURO
-========================= */
-
-.future-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 10px;
-}
-
-
-.future-card {
-  min-height: 140px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 10px;
-
-  padding: 18px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius: 18px;
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
-  text-align: center;
-}
-
-
-.future-card span {
-  color: var(--pink-soft);
-
-  font-size: 2rem;
-}
-
-
-.future-card p {
-  font-weight: 700;
-}
-
-
-.future-message {
-  margin-top: 35px;
-
-  padding: 28px;
-
-  border:
-    1px dashed
-    rgba(255, 111, 152, 0.35);
-
-  border-radius: 20px;
-
-  background:
-    rgba(255, 79, 127, 0.035);
-
-  text-align: center;
-}
-
-
-.future-message > span {
-  color: var(--pink-soft);
-
-  font-size: 0.72rem;
-
-  font-weight: 900;
-
-  letter-spacing: 0.25em;
-}
-
-
-.future-message h3 {
-  margin:
-    14px
-    0;
-
-  font-family:
-    Georgia,
-    serif;
-
-  font-size: 1.7rem;
-
-  font-weight: 400;
-}
-
-
-.future-message p {
-  color: var(--muted);
-}
-
-
-/* =========================
-   MÚSICAS
-========================= */
-
-.playlist {
-  display: grid;
-
-  gap: 9px;
-}
-
-
-.music-card {
-  min-height: 76px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 14px;
-
-  padding: 14px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius: 16px;
-
-  background:
-    rgba(255, 255, 255, 0.035);
-}
-
-
-.music-number {
-  width: 40px;
-  height: 40px;
-
-  flex-shrink: 0;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255, 79, 127, 0.10);
-
-  color: var(--pink-soft);
-
-  font-size: 0.75rem;
-
-  font-weight: 900;
-}
-
-
-.music-info {
-  flex: 1;
-}
-
-
-.music-info h3 {
   font-family:
     Georgia,
     serif;
 
   font-size: 1.05rem;
 
-  font-weight: 400;
+  line-height: 1.7;
 }
 
 
-.music-info p {
-  color: var(--muted);
+/* ==================================================
+   CORAÇÃO SECRETO DO TOPO
+================================================== */
 
-  font-size: 0.80rem;
-}
+.segredo-topo {
+  width: 38px;
+  height: 38px;
 
-
-.music-play {
-  color: var(--pink);
-
-  font-size: 1.2rem;
-}
-
-
-/* =========================
-   FINAL
-========================= */
-
-.final-card {
-  position: relative;
-
-  padding: 28px;
+  display: grid;
+  place-items: center;
 
   border:
     1px solid
-    var(--border-pink);
+    rgba(255, 111, 152, 0.18);
 
-  border-radius: 24px;
+  border-radius: 50%;
 
   background:
-    radial-gradient(
-      circle at top,
-      rgba(255, 79, 127, 0.12),
-      transparent 32%
-    ),
+    rgba(255, 111, 152, 0.05);
+
+  color: #ff6f98;
+
+  font-size: 1.1rem;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.segredo-topo.tocando {
+  transform:
+    scale(1.35);
+
+  background:
+    rgba(255, 111, 152, 0.18);
+}
+
+
+/* ==================================================
+   MODAL DAS MENSAGENS SECRETAS
+================================================== */
+
+.modal-segredo {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9995;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+
+  background:
+    rgba(8, 3, 6, 0.92);
+
+  backdrop-filter:
+    blur(10px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+}
+
+.modal-segredo.ativo {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-segredo-card {
+  position: relative;
+
+  width: min(
+    100%,
+    430px
+  );
+
+  padding:
+    42px
+    24px
+    28px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 111, 152, 0.35);
+
+  border-radius: 28px;
+
+  background:
     linear-gradient(
-      145deg,
-      rgba(32, 17, 22, 0.94),
-      rgba(12, 8, 9, 0.98)
+      150deg,
+      rgba(48, 13, 28, 0.98),
+      rgba(16, 8, 12, 0.98)
     );
 
   box-shadow:
-    var(--shadow);
+    0 30px 90px
+    rgba(0, 0, 0, 0.55);
+
+  text-align: center;
+
+  transform:
+    translateY(30px)
+    scale(0.94);
+
+  transition:
+    transform 0.4s ease;
 }
 
+.modal-segredo.ativo
+.modal-segredo-card {
+  transform:
+    translateY(0)
+    scale(1);
+}
 
-.final-small-heart {
+.modal-segredo-card::before {
+  content: "";
+
   position: absolute;
 
-  right: 22px;
-  top: 18px;
+  width: 180px;
+  height: 180px;
 
-  color:
-    rgba(
-      255,
-      100,
-      145,
-      0.18
-    );
+  top: -100px;
+  left: -90px;
 
-  font-size: 3rem;
+  border-radius: 50%;
+
+  background:
+    rgba(255, 64, 125, 0.16);
+
+  filter:
+    blur(20px);
 }
 
+.modal-segredo-fechar {
+  position: absolute;
 
-.final-card p {
-  margin-bottom: 18px;
+  top: 12px;
+  right: 12px;
 
-  color: #d8c8cf;
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  color: white;
+
+  font-size: 1.6rem;
+
+  cursor: pointer;
 }
 
+.modal-segredo-coracao {
+  margin-bottom: 14px;
 
-.final-love {
+  color: #ff6f98;
+
+  font-size: 2.4rem;
+
+  animation:
+    segredoPulsando
+    1.5s infinite;
+}
+
+.modal-segredo-titulo {
   margin:
-    40px
-    0;
+    0
+    0
+    14px;
 
   color: white;
 
@@ -1821,194 +463,42 @@ main {
 
   font-size:
     clamp(
-      3rem,
-      14vw,
-      6rem
+      1.45rem,
+      6vw,
+      2rem
     );
 
-  line-height: 0.92;
-
-  letter-spacing: -0.06em;
+  line-height: 1.2;
 }
 
+.modal-segredo-texto {
+  margin:
+    0
+    auto
+    20px;
 
-.final-emotional-text {
-  color: white !important;
+  color:
+    rgba(255, 255, 255, 0.76);
 
-  font-weight: 700;
+  font-size: 0.96rem;
+
+  line-height: 1.75;
 }
 
-
-.final-button {
-  width: 100%;
-
-  margin-top: 10px;
-}
-
-
-/* =========================
-   SURPRESA
-========================= */
-
-.surpresa {
-  display: none;
-
-  padding-top: 40px;
-
-  text-align: center;
-
-  animation:
-    aparecer
-    0.7s ease;
-}
-
-
-.surpresa.ativa {
-  display: block;
-}
-
-
-.big-heart {
-  display: block;
-
-  margin-bottom: 12px;
-
-  color: var(--pink);
-
-  font-size: 5rem;
-
-  animation:
-    pulsar
-    1.1s ease-in-out
-    infinite;
-}
-
-
-.surpresa h3 {
-  margin-bottom: 15px;
-
-  color: var(--pink-soft);
-
-  font-family:
-    "Brush Script MT",
-    cursive;
-
-  font-size: 2.5rem;
-
-  font-weight: 400;
-}
-
-
-.surpresa strong {
-  display: block;
-
-  margin-top: 24px;
-
-  color: white;
+.modal-segredo-assinatura {
+  color: #ff7b9f;
 
   font-family:
     Georgia,
     serif;
 
-  font-size: 1.3rem;
+  font-style: italic;
+
+  font-size: 0.92rem;
 }
 
+@keyframes segredoPulsando {
 
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-  padding:
-    55px
-    22px
-    calc(
-      50px +
-      env(safe-area-inset-bottom)
-    );
-
-  border-top:
-    1px solid
-    var(--border);
-
-  text-align: center;
-
-  color: var(--muted);
-}
-
-
-.footer-heart {
-  display: block;
-
-  margin-bottom: 10px;
-
-  color: var(--pink);
-
-  font-size: 2rem;
-}
-
-
-footer strong {
-  display: block;
-
-  margin-top: 7px;
-
-  color: var(--pink-soft);
-
-  font-family:
-    Georgia,
-    serif;
-}
-
-
-footer small {
-  display: block;
-
-  margin-top: 8px;
-
-  letter-spacing: 0.14em;
-}
-
-
-/* =========================
-   ANIMAÇÕES
-========================= */
-
-@keyframes subirSuave {
-  from {
-    opacity: 0;
-
-    transform:
-      translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0);
-  }
-}
-
-
-@keyframes aparecer {
-  from {
-    opacity: 0;
-
-    transform:
-      translateY(18px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0);
-  }
-}
-
-
-@keyframes pulsar {
   0%,
   100% {
     transform:
@@ -2017,165 +507,37 @@ footer small {
 
   50% {
     transform:
-      scale(1.13);
+      scale(1.22);
   }
+
 }
 
 
-@keyframes flutuarCoracao {
-  0%,
-  100% {
-    transform:
-      translateY(0)
-      rotate(-6deg);
-  }
+/* ==================================================
+   AJUSTES PARA CELULAR
+================================================== */
 
-  50% {
-    transform:
-      translateY(-12px)
-      rotate(6deg);
-  }
-}
+@media (max-width: 520px) {
 
-
-/* =========================
-   TABLET E PC
-========================= */
-
-@media (min-width: 700px) {
-
-  .topbar {
+  .modal-foto {
     padding:
+      65px
       12px
-      42px;
+      65px;
   }
 
+  .modal-foto-imagem {
+    max-width: 100%;
+    max-height: 80vh;
 
-  .menu-historia {
-    justify-content: center;
+    border-radius: 16px;
+  }
 
+  .modal-segredo-card {
     padding:
-      11px
-      20px;
-  }
-
-
-  .history-hero {
-    min-height: 90vh;
-
-    padding:
-      150px
-      70px
-      30px;
-  }
-
-
-  .history-hero-content {
-    margin-bottom: 45px;
-  }
-
-
-  .section {
-    padding:
-      120px
-      35px;
-  }
-
-
-  .timeline::before {
-    left: 34px;
-  }
-
-
-  .timeline-item {
-    padding-left: 90px;
-  }
-
-
-  .timeline-heart {
-    left: 14px;
-
-    width: 44px;
-    height: 44px;
-  }
-
-
-  .timeline-card {
-    grid-template-columns:
-      1fr
-      230px;
-
-    align-items: center;
-
-    padding: 22px;
-  }
-
-
-  .timeline-photo img {
-    height: 160px;
-  }
-
-
-  .contador {
-    grid-template-columns:
-      repeat(4, 1fr);
-  }
-
-
-  .beijo-card {
-    display: grid;
-
-    grid-template-columns:
-      1fr
-      1fr;
-  }
-
-
-  .beijo-photo {
-    height: 100%;
-    min-height: 500px;
-  }
-
-
-  .memory-grid {
-    grid-template-columns:
-      repeat(3, 1fr);
-  }
-
-
-  .love-list {
-    grid-template-columns:
-      repeat(3, 1fr);
-  }
-
-
-  .future-grid {
-    grid-template-columns:
-      repeat(3, 1fr);
-  }
-
-
-  .gallery {
-    grid-template-columns:
-      repeat(3, 1fr);
-  }
-
-
-  .gallery img,
-  .gallery img:nth-child(3),
-  .gallery img:nth-child(6),
-  .gallery img:nth-child(9) {
-    grid-column: span 1;
-
-    height: 280px;
-  }
-
-
-  .gallery img:nth-child(1),
-  .gallery img:nth-child(7) {
-    grid-column: span 2;
-
-    height: 360px;
+      40px
+      20px
+      25px;
   }
 
 }
